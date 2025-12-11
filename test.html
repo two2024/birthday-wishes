@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>生日快乐祝福页面</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Microsoft YaHei', sans-serif;
+            background: linear-gradient(135deg, #ff9a9e 0%, #fad0c4 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+        
+        .birthday-card {
+            background: white;
+            border-radius: 24px;
+            padding: 30px;
+            max-width: 500px;
+            width: 100%;
+            text-align: center;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        h1 {
+            color: #ff4081;
+            font-size: 2.5rem;
+            margin-bottom: 15px;
+        }
+        
+        .birthday-person {
+            font-size: 1.8rem;
+            color: #ff6b6b;
+            background: linear-gradient(to right, #ff6b6b, #ff8e53);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            font-weight: bold;
+            margin: 20px 0;
+        }
+        
+        .message-box {
+            background: #f8f9fa;
+            border-radius: 15px;
+            padding: 20px;
+            margin: 25px 0;
+            text-align: left;
+            border-left: 5px solid #ff4081;
+        }
+        
+        .message-box p {
+            line-height: 1.6;
+            color: #555;
+            font-size: 1.1rem;
+        }
+        
+        .cake {
+            font-size: 4rem;
+            margin: 20px 0;
+            animation: bounce 2s infinite;
+        }
+        
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-20px); }
+        }
+        
+        .balloon {
+            position: absolute;
+            width: 40px;
+            height: 50px;
+            background: #ff4081;
+            border-radius: 50%;
+            z-index: -1;
+            animation: float 8s ease-in infinite;
+        }
+        
+        .balloon:nth-child(2) {
+            background: #36d1dc;
+            left: 10%;
+            animation-delay: 1s;
+        }
+        
+        .balloon:nth-child(3) {
+            background: #5b86e5;
+            right: 15%;
+            animation-delay: 2s;
+        }
+        
+        .balloon:nth-child(4) {
+            background: #ff9966;
+            left: 20%;
+            animation-delay: 3s;
+        }
+        
+        @keyframes float {
+            0% { transform: translateY(100vh) scale(0.8); opacity: 0; }
+            10% { opacity: 1; }
+            90% { opacity: 1; }
+            100% { transform: translateY(-100px) scale(1.1); opacity: 0; }
+        }
+        
+        .controls {
+            margin: 25px 0;
+        }
+        
+        .btn {
+            background: linear-gradient(45deg, #ff4081, #ff6b6b);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            cursor: pointer;
+            margin: 10px;
+            font-weight: bold;
+            box-shadow: 0 5px 15px rgba(255, 64, 129, 0.3);
+            transition: transform 0.3s;
+        }
+        
+        .btn:hover {
+            transform: translateY(-3px);
+        }
+        
+        .share-info {
+            background: #f0f8ff;
+            border-radius: 10px;
+            padding: 15px;
+            margin-top: 20px;
+            font-size: 0.9rem;
+            color: #666;
+        }
+        
+        .footer {
+            margin-top: 25px;
+            color: #888;
+            font-size: 0.9rem;
+        }
+        
+        .heart {
+            color: #ff4081;
+            animation: heartbeat 1.5s infinite;
+            display: inline-block;
+        }
+        
+        @keyframes heartbeat {
+            0% { transform: scale(1); }
+            5% { transform: scale(1.3); }
+            10% { transform: scale(1.1); }
+            15% { transform: scale(1.4); }
+            50% { transform: scale(1); }
+            100% { transform: scale(1); }
+        }
+        
+        @media (max-width: 480px) {
+            h1 { font-size: 2rem; }
+            .birthday-person { font-size: 1.5rem; }
+            .cake { font-size: 3rem; }
+        }
+    </style>
+    <script src="https://cdn.jsdelivr.net/npm/confetti-js@0.0.18/dist/index.min.js"></script>
+</head>
+<body>
+    <!-- 气球背景 -->
+    <div class="balloon"></div>
+    <div class="balloon"></div>
+    <div class="balloon"></div>
+    <div class="balloon"></div>
+    
+    <div class="birthday-card">
+        <h1>🎂 生日快乐！ 🎉</h1>
+        <div class="birthday-person" id="birthdayName">亲爱的朋友</div>
+        
+        <div class="cake">🎂</div>
+        
+        <div class="message-box">
+            <p id="message">
+                在这特别的日子里，愿所有的快乐、所有的幸福、所有的温馨、所有的好运都围绕在你身边。祝你生日快乐，健康幸福！
+            </p>
+        </div>
+        
+        <div class="controls">
+            <button class="btn" id="confettiBtn">🎉 放飞气球</button>
+            <button class="btn" id="musicBtn">🎵 生日音乐</button>
+        </div>
+        
+        <div class="share-info">
+            <p>💡 <strong>分享提示：</strong>将此页面链接发送给朋友即可查看祝福！</p>
+            <p style="margin-top: 8px; font-size: 0.85rem;">如需个性化祝福，可在链接后添加 ?name=名字</p>
+        </div>
+        
+        <div class="footer">
+            <p>用 <span class="heart">❤</span> 制作的生日祝福 | Vercel 托管</p>
+        </div>
+    </div>
+    
+    <audio id="birthdayAudio" preload="auto">
+        <!-- 音频将通过JavaScript生成 -->
+    </audio>
+    
+    <script>
+        // 从URL获取名字
+        function getUrlParam(name) {
+            const urlParams = new URLSearchParams(window.location.search);
+            return urlParams.get(name);
+        }
+        
+        // 设置名字
+        const name = getUrlParam('name') || '亲爱的朋友';
+        document.getElementById('birthdayName').textContent = name;
+        
+        // 更新祝福语
+        const messages = [
+            `亲爱的${name}，祝你生日快乐！愿你的生活像彩虹一样绚丽多彩，每一天都充满惊喜和欢笑。`,
+            `祝${name}生日快乐！愿你的未来比过去更加光明，每一步都走向成功和幸福。`,
+            `${name}，在这个特别的日子里，愿快乐永远伴随你，愿健康常伴你左右！`,
+            `生日快乐，${name}！愿你的每个愿望都能实现，愿你的每一天都像今天一样特别而美好。`,
+            `祝福${name}生日快乐！愿你的生活像蛋糕一样甜蜜，像蜡烛一样明亮！`
+        ];
+        
+        const randomMsg = messages[Math.floor(Math.random() * messages.length)];
+        document.getElementById('message').textContent = randomMsg;
+        
+        // 彩屑效果
+        const confettiBtn = document.getElementById('confettiBtn');
+        let confetti = null;
+        
+        confettiBtn.addEventListener('click', function() {
+            if (!confetti) {
+                confetti = new ConfettiGenerator({
+                    target: 'confetti-canvas',
+                    max: 80,
+                    size: 1,
+                    animate: true,
+                    props: ['circle', 'square', 'triangle', 'line'],
+                    colors: [[255, 107, 107], [54, 209, 220], [91, 134, 229], [255, 153, 102]],
+                    clock: 25
+                });
+                confetti.render();
+                
+                // 5秒后停止
+                setTimeout(() => {
+                    confetti.clear();
+                    confetti = null;
+                }, 5000);
+            }
+        });
+        
+        // 生日音乐
+        const musicBtn = document.getElementById('musicBtn');
+        const audio = document.getElementById('birthdayAudio');
+        let isPlaying = false;
+        
+        // 创建简单的生日音乐
+        function createBirthdayTune() {
+            const context = new (window.AudioContext || window.webkitAudioContext)();
+            const notes = [262, 262, 294, 262, 349, 330];
+            const durations = [0.5, 0.5, 1, 1, 1, 2];
+            
+            let time = context.currentTime;
+            
+            for (let i = 0; i < notes.length; i++) {
+                const oscillator = context.createOscillator();
+                const gainNode = context.createGain();
+                
+                oscillator.connect(gainNode);
+                gainNode.connect(context.destination);
+                
+                oscillator.frequency.value = notes[i];
+                oscillator.type = 'sine';
+                
+                gainNode.gain.setValueAtTime(0, time);
+                gainNode.gain.linearRampToValueAtTime(0.3, time + 0.05);
+                gainNode.gain.exponentialRampToValueAtTime(0.01, time + durations[i]);
+                
+                oscillator.start(time);
+                oscillator.stop(time + durations[i]);
+                
+                time += durations[i];
+            }
+            
+            // 循环播放
+            setTimeout(() => {
+                if (isPlaying) {
+                    createBirthdayTune();
+                }
+            }, (time - context.currentTime) * 1000);
+        }
+        
+        musicBtn.addEventListener('click', function() {
+            if (!isPlaying) {
+                createBirthdayTune();
+                musicBtn.textContent = '⏸️ 暂停音乐';
+                isPlaying = true;
+            } else {
+                // 实际上需要更复杂的音频控制，这里简化处理
+                musicBtn.textContent = '🎵 生日音乐';
+                isPlaying = false;
+            }
+        });
+        
+        // 创建隐藏的canvas用于彩屑
+        const canvas = document.createElement('canvas');
+        canvas.id = 'confetti-canvas';
+        canvas.style.position = 'fixed';
+        canvas.style.top = '0';
+        canvas.style.left = '0';
+        canvas.style.width = '100%';
+        canvas.style.height = '100%';
+        canvas.style.pointerEvents = 'none';
+        canvas.style.zIndex = '999';
+        document.body.appendChild(canvas);
+        
+        // 自动创建一些气球
+        function createAutoBalloon() {
+            const balloon = document.createElement('div');
+            balloon.className = 'balloon';
+            balloon.style.left = Math.random() * 100 + '%';
+            balloon.style.background = ['#ff4081', '#36d1dc', '#5b86e5', '#ff9966'][Math.floor(Math.random() * 4)];
+            balloon.style.animationDelay = Math.random() * 5 + 's';
+            document.body.appendChild(balloon);
+            
+            setTimeout(() => {
+                if (balloon.parentNode) {
+                    balloon.parentNode.removeChild(balloon);
+                }
+            }, 9000);
+        }
+        
+        // 每3秒创建一个气球
+        setInterval(createAutoBalloon, 3000);
+        for (let i = 0; i < 3; i++) {
+            setTimeout(createAutoBalloon, i * 1000);
+        }
+        
+        // 点击页面任何地方也可以触发彩屑
+        document.addEventListener('click', function(e) {
+            if (e.target !== confettiBtn && e.target !== musicBtn) {
+                // 可选：小概率触发彩屑
+                if (Math.random() < 0.1) {
+                    confettiBtn.click();
+                }
+            }
+        });
+        
+        console.log('生日快乐页面加载完成！🎉');
+    </script>
+</body>
+</html>
